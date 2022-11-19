@@ -1,0 +1,5 @@
+<p>We have received a booking request on BookEnzi with the following information:</p>
+<p>If you made this request, please click the following link to complete the confirmation and place your booking.</p>
+{% block confirmation_link %}
+http://{{ domain }}{% url 'confirm-booking' uidb64=uid token=token %}
+{% endblock %}
