@@ -1,1 +1,1 @@
-web: gunicorn enzi_proj.wsgi
+web: python manage.py migrate && gunicorn enzi_proj.wsgi

@@ -90,3 +90,6 @@ def activate(request, uidb64, token):
         #     return response 
             # serializer = PasswordResetSerializer
             # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+def home(request):
+    return render(request,'index.html')
