@@ -70,7 +70,6 @@ INSTALLED_APPS = [
     'knox',
     'bootstrap5',
     'corsheaders',
-    'dotenv'
 ]
 
 REST_FRAMEWORK = {
