@@ -25,8 +25,7 @@ MODE=os.getenv("MODE", default="dev")
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv('DEBUG', default=False)
 # development
-if os.getenv('MODE')=="dev":
-   DATABASES = {
+DATABASES = {
        'default': {
            'ENGINE': 'django.db.backends.postgresql_psycopg2',
            'NAME': os.getenv('DB_NAME'),
@@ -36,16 +35,9 @@ if os.getenv('MODE')=="dev":
            'PORT': '',
        }
     }
-# production
-else:
-   DATABASES = {
-       'default': dj_database_url.config(
-           default=os.getenv('DATABASE_URL')
-       )
-   }
 
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+
+
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
 
@@ -206,6 +198,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 # conf app for heroku 
 django_heroku.settings(locals(),staticfiles=False)
