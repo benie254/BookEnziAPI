@@ -23,7 +23,7 @@ load_dotenv()  # loads the os.getenvs from .env
 
 MODE=os.getenv("MODE", default="dev")
 SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = os.getenv('DEBUG', default=False, cast=bool)
+DEBUG = os.getenv('DEBUG', default=False)
 # development
 if os.getenv('MODE')=="dev":
    DATABASES = {
@@ -47,7 +47,7 @@ else:
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', cast=Csv())
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
