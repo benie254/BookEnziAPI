@@ -16,6 +16,7 @@ import django_heroku
 import dj_database_url
 from decouple import Csv
 from datetime import timedelta
+import dotenv
 from dotenv import load_dotenv
 load_dotenv()  # loads the os.getenvs from .env
 
@@ -38,12 +39,12 @@ if os.getenv('MODE')=="dev":
 # production
 else:
    DATABASES = {
-       'default': dj_database_url.os.getenv(
+       'default': dj_database_url.config(
            default=os.getenv('DATABASE_URL')
        )
    }
 
-db_from_env = dj_database_url.os.getenv(conn_max_age=500)
+db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', cast=Csv())
