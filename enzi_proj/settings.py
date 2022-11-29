@@ -36,14 +36,10 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DATABASES = {
-       'default': {
-           'ENGINE': 'django.db.backends.sqlite3',
-           'NAME': os.getenv('DB_NAME'),
-           'USER': os.getenv('DB_USER'),
-           'PASSWORD': os.getenv('DB_PASSWORD'),
-           'HOST': os.getenv('DB_HOST'),
-           'PORT': '',
-       }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 # Quick-start development settings - unsuitable for production
