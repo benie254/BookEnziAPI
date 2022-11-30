@@ -28,8 +28,9 @@ from enzi_app.models import ClientBooking
 class ClientBookingView(APIView):
     def get(self,request):
         bookings = ClientBooking.objects.all().order_by('-checkin')
-        serializer = BookingSerializer(data=request.data)
+        serializer = BookingSerializer(bookings,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
+        
     def post(self,request):
         serializer = BookingSerializer(data=request.data)
         if serializer.is_valid():
