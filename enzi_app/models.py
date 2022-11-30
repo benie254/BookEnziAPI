@@ -4,5 +4,5 @@ from django.db import models
 class ClientBooking(models.Model):
     name = models.CharField(max_length=120)
     email = models.EmailField(max_length=120,default='')
-    checkin_date = models.DateField()
-    checkout_date = models.DateField()
+    checkin = models.DateField()
+    checkout = models.DateField()

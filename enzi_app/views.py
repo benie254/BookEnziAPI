@@ -19,18 +19,24 @@ from django.utils.encoding import force_str
 from django.shortcuts import redirect
 from django.http import Http404
 
+from enzi_app.models import ClientBooking
+
 
 
 
 # Create your views here.
 class ClientBookingView(APIView):
+    def get(self,request):
+        bookings = ClientBooking.objects.all().order_by('-checkin')
+        serializer = BookingSerializer(data=request.data)
+        return Response(serializer.data,status=status.HTTP_200_OK)
     def post(self,request):
         serializer = BookingSerializer(data=request.data)
         if serializer.is_valid():
             name = request.data['name']
             email = request.data['email']
-            checkin = request.data['checkin_date']
-            checkout = request.data['checkout_date']
+            checkin = request.data['checkin']
+            checkout = request.data['checkout']
             user = serializer.save()
             user.refresh_from_db()
             id = random.randint(1,999999)
