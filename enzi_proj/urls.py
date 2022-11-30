@@ -19,5 +19,6 @@ from enzi_app import views
 
 urlpatterns = [
     path('',views.home),
+    path('api/',include('enzi_app.urls')),
     path('admin/', admin.site.urls),
 ]
