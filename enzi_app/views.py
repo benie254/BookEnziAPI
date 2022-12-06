@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from enzi_app.serializers import BookingSerializer
+from enzi_app.serializers import BookingSerializer, MpesaSerializer
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_decode
@@ -14,17 +14,22 @@ from rest_framework.response import Response
 from rest_framework import status
 import random 
 from rest_framework.decorators import api_view, renderer_classes, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from django.utils.encoding import force_str
 from django.shortcuts import redirect
 from django.http import Http404
 
-from enzi_app.models import ClientBooking
+from enzi_app.models import ClientBooking, MpesaResponse
+
+from django_daraja.mpesa.core import MpesaClient 
+from django.http import HttpResponse 
 
 
 
 
 # Create your views here.
+@permission_classes([AllowAny,])
 class ClientBookingView(APIView):
     def get(self,request):
         bookings = ClientBooking.objects.all().order_by('-checkin')
@@ -74,7 +79,7 @@ class ClientBookingView(APIView):
 
 @api_view(('GET',))
 @renderer_classes((JSONRenderer,))
-# @permission_classes([AllowAny,])
+@permission_classes([AllowAny,])
 def activate(request, uidb64, token):
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = uid
@@ -100,3 +105,28 @@ def activate(request, uidb64, token):
 
 def home(request):
     return render(request,'index.html')
+
+@api_view(('GET',))
+@renderer_classes((JSONRenderer,))
+@permission_classes([AllowAny,])
+def payReq(request):
+    cli = MpesaClient()
+    phone = '0708696335'
+    amount = 1
+    acc_ref = 'reference'
+    trans_desc = 'Description'
+    callback_url = request.build_absolute_uri('/payment/mpesa/')
+    response = cli.stk_push(phone,amount,acc_ref,trans_desc,callback_url)
+    return HttpResponse(response)
+
+@api_view(('GET',))
+@renderer_classes((JSONRenderer,))
+@permission_classes([AllowAny,])
+def mpesa(request):
+    data = request.body
+    mpesa = MpesaResponse.objects.all().last()
+    mpesa.msg = data 
+    mpesa.save()
+    mpesa.refresh_from_db()
+    serializer = MpesaSerializer(mpesa,many=False)
+    return Response(serializer.data,status=status.HTTP_200_OK)
