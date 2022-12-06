@@ -212,6 +212,7 @@ django_heroku.settings(locals(),staticfiles=False)
 
 # Mpesa Configs 
 
+
 MPESA_ENVIRONMENT = 'sandbox'
 
 # Credentials for the daraja app
@@ -221,13 +222,13 @@ MPESA_CONSUMER_SECRET = os.getenv('MPESA_CONSUMER_SECRET')
 
 #Shortcode to use for transactions. For sandbox  use the Shortcode 1 provided on test credentials page
 
-MPESA_SHORTCODE = 'mpesa_shortcode'
+MPESA_SHORTCODE = '1'
 
 # Shortcode to use for Lipa na MPESA Online (MPESA Express) transactions
 # This is only used on sandbox, do not set this variable in production
 # For sandbox use the Lipa na MPESA Online Shorcode provided on test credentials page
 
-MPESA_EXPRESS_SHORTCODE = 'mpesa_express_shortcode'
+MPESA_EXPRESS_SHORTCODE = '1'
 
 # Type of shortcode
 # Possible values:
@@ -240,12 +241,12 @@ MPESA_SHORTCODE_TYPE = 'paybill'
 # Sandbox passkey is available on test credentials page
 # Production passkey is sent via email once you go live
 
-MPESA_PASSKEY = 'mpesa_passkey'
+MPESA_PASSKEY = os.getenv('MPESA_SHORTCODE')
 
 # Username for initiator (to be used in B2C, B2B, AccountBalance and TransactionStatusQuery Transactions)
 
-MPESA_INITIATOR_USERNAME = 'initiator_username'
+MPESA_INITIATOR_USERNAME = 'benie254'
 
 # Plaintext password for initiator (to be used in B2C, B2B, AccountBalance and TransactionStatusQuery Transactions)
 
-MPESA_INITIATOR_SECURITY_CREDENTIAL = 'initiator_security_credential'
+MPESA_INITIATOR_SECURITY_CREDENTIAL = os.getenv('MPESA_SHORTCODE')
